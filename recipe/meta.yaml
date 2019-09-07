@@ -1,5 +1,5 @@
 {% set name = "pyshacl" %}
-{% set version = "0.10.0" %}
+{% set version = "0.11.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: b4a6e3f339a537fdaa811b3bb9ed55b65447a4e96c176369310465d5a41319d4
+  sha256: a99a6f39ecea67c398c43d373c5efc995b9642d8a99645634b0e654f97305bd0
 
 build:
   noarch: python
@@ -35,7 +35,7 @@ test:
     - pyshacl
   commands:
     - pyshacl --help
-    - pytest --cov=pyshacl -vv
+    - pytest --cov=pyshacl -k "not owl_imports" -vv
 
 about:
   home: https://github.com/RDFLib/pySHACL

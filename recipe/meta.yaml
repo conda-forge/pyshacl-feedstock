@@ -35,7 +35,7 @@ test:
     - pyshacl
   commands:
     - pyshacl --help
-    - pytest --cov=pyshacl -vv
+    - pytest --cov=pyshacl -k "not owl_imports" -vv
 
 about:
   home: https://github.com/RDFLib/pySHACL

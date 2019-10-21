@@ -1,5 +1,5 @@
 {% set name = "pyshacl" %}
-{% set version = "0.11.2" %}
+{% set version = "0.11.3" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 2a3585b6781c73e693b504a4a50d7d401e18e2abf2df0209d5675b5e05925541
+  sha256: 595ab902eb496fad38c3686f66d03784055ad5edb27c83bdfba71cabb511f7ea
 
 build:
   noarch: python

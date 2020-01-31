@@ -24,7 +24,7 @@ requirements:
     - python >=3.5
     - rdflib >=4.2.2
     - rdflib-jsonld
-    - owlrl >=5.2.0
+    - owlrl >=5.2.1
 
 test:
   source_files:

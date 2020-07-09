@@ -31,9 +31,11 @@ test:
     - test
   requires:
     - pytest-cov
+    - pip
   imports:
     - pyshacl
   commands:
+    - python -m pip check
     - pyshacl --help
     - pytest --cov=pyshacl -k "not owl_imports" -vv
 

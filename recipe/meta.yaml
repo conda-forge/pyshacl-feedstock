@@ -1,5 +1,5 @@
 {% set name = "pyshacl" %}
-{% set version = "0.11.5" %}
+{% set version = "0.11.6" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: bd6ac9faa93c72f74f05c3bfff51cbdb11930e7d832819e240775e0b4aa1c28d
+  sha256: 85072b1bf680f5fa079711e91ff7833180aa9ab5fa87c6831991c904ab26959a
 
 build:
   noarch: python
@@ -31,9 +31,11 @@ test:
     - test
   requires:
     - pytest-cov
+    - pip
   imports:
     - pyshacl
   commands:
+    - python -m pip check
     - pyshacl --help
     - pytest --cov=pyshacl -k "not owl_imports" -vv
 

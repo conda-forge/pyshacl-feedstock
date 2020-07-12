@@ -1,5 +1,5 @@
 {% set name = "pyshacl" %}
-{% set version = "0.11.6.post1" %}
+{% set version = "0.12.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: addb61272ab8487f9476d229cea08f5dde0e52b2f503c03e03090d50be2a61b8
+  sha256: b538193d9c7bcf6986955c0e51a5dc1773389fbc110ad40370d6ea33f901fabf
 
 build:
   noarch: python
@@ -18,13 +18,14 @@ build:
 
 requirements:
   host:
-    - python >=3.5
     - pip
+    - poetry >=1.0.9
+    - python >=3.6
   run:
-    - python >=3.5
-    - rdflib >=4.2.2
-    - rdflib-jsonld
     - owlrl >=5.2.1
+    - python >=3.6
+    - rdflib >=5.0.0
+    - rdflib-jsonld >=0.5.0
 
 test:
   source_files:
@@ -42,7 +43,7 @@ test:
 about:
   home: https://github.com/RDFLib/pySHACL
   license: Apache-2.0
-  license_family: Apache
+  license_family: APACHE
   license_file: LICENSE.txt
   summary: A Python validator for SHACL
   description: |

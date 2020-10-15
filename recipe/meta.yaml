@@ -1,5 +1,5 @@
 {% set name = "pyshacl" %}
-{% set version = "0.13.3" %}
+{% set version = "0.14.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 2911d262ed6767715d8d20b14ba1c4bfa06ad397dd1a395ded2b5383580c2452
+  sha256: 0bb594e215a0e0a6d44e3ed7db339edbb46089049600f99c93cec07c2cad18c4
 
 build:
   noarch: python
@@ -33,12 +33,14 @@ test:
   requires:
     - pytest-cov
     - pip
+    # TODO: package, add (at least) run_constrained, maybe another output
+    # - pyduktape2
   imports:
     - pyshacl
   commands:
     - python -m pip check
     - pyshacl --help
-    - pytest --cov=pyshacl -k "not owl_imports" -vv
+    - pytest --cov=pyshacl -k "not (owl_imports or js)" -vv
 
 about:
   home: https://github.com/RDFLib/pySHACL

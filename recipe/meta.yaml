@@ -1,5 +1,5 @@
 {% set name = "pyshacl" %}
-{% set version = "0.15.0" %}
+{% set version = "0.16.1" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 5eb04f3fde760ea406a95106b58a7004d9eb491648f207e1e3969625712afe21
+  sha256: 33fce7e743c1de88344b04a1dd1778cac81691daa6a791a5d54f555659e69ce4
 
 build:
   noarch: python
@@ -40,7 +40,7 @@ test:
   commands:
     - python -m pip check
     - pyshacl --help
-    - pytest --cov=pyshacl -k "not (owl_imports or js)" -vv
+    - pytest -vv --cov=pyshacl --cov-report term-missing:skip-covered -k "not (owl_imports or js or 079)" 
 
 about:
   home: https://github.com/RDFLib/pySHACL

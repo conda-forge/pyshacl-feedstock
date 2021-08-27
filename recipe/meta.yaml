@@ -40,7 +40,7 @@ test:
   commands:
     - python -m pip check
     - pyshacl --help
-    - pytest -vv --cov=pyshacl --cov-report term-missing:skip-covered -k "not (owl_imports or js or 079)"
+    - pytest -vv --cov=pyshacl --cov-report term-missing:skip-covered -k "not (owl_imports or js)"
 
 about:
   home: https://github.com/RDFLib/pySHACL

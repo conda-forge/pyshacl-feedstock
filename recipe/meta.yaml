@@ -20,11 +20,11 @@ requirements:
   host:
     - pip
     - poetry >=1.0.9
-    - python >=3.6
+    - python >=3.7
   run:
-    - owlrl >=5.2.1
-    - python >=3.6
-    - rdflib >=5.0.0
+    - owlrl >=5.2.3
+    - python >=3.7
+    - rdflib >=6.0.0,<7
     - rdflib-jsonld <0.6,>=0.4.0
 
 test:

@@ -2,7 +2,7 @@
 {% set version = "0.17.0.post2" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
@@ -19,13 +19,16 @@ build:
 requirements:
   host:
     - pip
-    - poetry >=1.0.9
-    - python >=3.6
+    - poetry-core >=1.0.3
+    - python >=3.7
   run:
-    - owlrl >=5.2.1
-    - python >=3.6
-    - rdflib >=5.0.0
-    - rdflib-jsonld >=0.5.0
+    - owlrl >=5.2.3,<6
+    - python >=3.7
+    - rdflib >=6.0.0,<7
+  run_constrained:
+    - rdflib-jsonld >=0.4.0,<0.6
+    # TODO: package, maybe another output
+    # - pyduktape2 >=0.4.1,<1
 
 test:
   source_files:
@@ -33,8 +36,6 @@ test:
   requires:
     - pytest-cov
     - pip
-    # TODO: package, add (at least) run_constrained, maybe another output
-    # - pyduktape2
   imports:
     - pyshacl
   commands:

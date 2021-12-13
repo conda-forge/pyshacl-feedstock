@@ -13,8 +13,6 @@ build:
   noarch: python
   number: 0
   script:
-    # TODO: remove when pip vs poetry situation is resolved
-    - {{ PYTHON }} -c "__import__('os').unlink('pyproject.toml')"
     - {{ PYTHON }} -m pip install . --no-deps -vv
   entry_points:
     - pyshacl = pyshacl.cli:main
@@ -22,8 +20,8 @@ build:
 requirements:
   host:
     - pip
-    - poetry-core >=1.0.3
-    - python >=3.7
+    - poetry-core >=1.0.7
+    - python >=3.7,<3.10
   run:
     - python >=3.7,<3.10
     - owlrl >=5.2.3,<7

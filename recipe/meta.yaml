@@ -45,7 +45,7 @@ test:
   commands:
     - python -m pip check
     - pyshacl --help
-    - pytest -vv --cov=pyshacl --cov-report term-missing:skip-covered -k "not (owl_imports or js)"
+    - pytest -vv --cov=pyshacl --cov-report term-missing:skip-covered --no-cov-on-fail -k "not (owl_imports or js)" --cov-fail-under 100
 
 about:
   home: https://github.com/RDFLib/pySHACL

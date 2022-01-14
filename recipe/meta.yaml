@@ -1,4 +1,4 @@
-{% set version = "0.17.3" %}
+{% set version = "0.18.0" %}
 
 package:
   name: pyshacl
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/p/pyshacl/pyshacl-{{ version }}.tar.gz
-  sha256: a76c444f9156fd24e915455a173dc45d080b153702705359c031b47f8cb964b7
+  sha256: 628311d29e855c26d1dc7b44158be282d5fd3d4b750ab9d7ee9e02d1c8517844
 
 build:
   noarch: python
@@ -20,12 +20,12 @@ requirements:
   host:
     - pip
     - poetry-core >=1.0.7
-    - python >=3.7,<3.10
+    - python >=3.7
   run:
-    - python >=3.7,<3.10
-    - owlrl >=5.2.3,<7
+    - python >=3.7
+    - owlrl >=6.0.2,<7
     - prettytable >=2.2.1,<3.0.0
-    - rdflib >=6.0.0,<7
+    - rdflib >=6.1.1,<7
   run_constrained:
     - rdflib-jsonld >=0.4.0,<0.6
     # TODO: package, maybe another output

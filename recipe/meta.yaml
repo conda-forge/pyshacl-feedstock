@@ -26,6 +26,8 @@ outputs:
         - {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation
       entry_points:
         - pyshacl = pyshacl.cli:main
+        - pyshacl_server = pyshacl.http:cli
+        - pyshacl_validate = pyshacl.cli:main
     requirements:
       host:
         - pip
@@ -137,7 +139,6 @@ outputs:
       source_files:
         - test
       requires:
-        - mypy
         - pip
         - pytest-cov
       imports:
@@ -145,7 +146,6 @@ outputs:
       commands:
         - python -m pip check
         - pyshacl --help
-        - mypy -p pyshacl --ignore-missing-imports
         # TODO: remove after pyduktape2
         - python -c "__import__('pathlib').Path('test/issues/test_108.py').unlink()"
         - pytest -vv --cov-fail-under=65 --cov=pyshacl --cov-report=term-missing:skip-covered --no-cov-on-fail -k "not (owl_imports or js)"

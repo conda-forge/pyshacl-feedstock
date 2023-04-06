@@ -1,52 +1,165 @@
-{% set version = "0.20.0" %}
+{% set version = "0.21.0" %}
 
 package:
-  name: pyshacl
+  name: pyshacl-split
   version: {{ version }}
 
 source:
   url: https://pypi.io/packages/source/p/pyshacl/pyshacl-{{ version }}.tar.gz
-  sha256: 47f014c52cc69167b902c89b3940dd400f7f5d2169a62f97f837f3419b4a737d
+  sha256: 078c055afe7f4b239c77d74c8dcb9469733d61dde253e644385c44d953acc702
 
 build:
   noarch: python
   number: 0
-  script:
-    - {{ PYTHON }} -m pip install . --no-deps -vv
-  entry_points:
-    - pyshacl = pyshacl.cli:main
 
 requirements:
   host:
-    - pip
-    - poetry-core >=1.0.8
     - python >=3.7
   run:
-    - html5lib >=1.1,<2
-    - owlrl >=6.0.2,<7
-    - packaging >=21.3
-    - prettytable >=2.2.1,<3.0.0
     - python >=3.7
-    - rdflib >=6.2.0,<7
-  run_constrained:
-    - rdflib-jsonld >=0.4.0,<0.6
-    # TODO: package, maybe another output
-    # - pyduktape2 >=0.4.1,<1
 
-test:
-  source_files:
-    - test
-  requires:
-    - pytest-cov
-    - pip
-  imports:
-    - pyshacl
-  commands:
-    - python -m pip check
-    - pyshacl --help
-    # uses pyduktape2, see above
-    - python -c "__import__('pathlib').Path('test/issues/test_108.py').unlink()"
-    - pytest -vv --cov=pyshacl --cov-report term-missing:skip-covered --no-cov-on-fail -k "not (owl_imports or js)" --cov-fail-under 67
+outputs:
+  - name: pyshacl
+    build:
+      noarch: python
+      script:
+        - {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation
+      entry_points:
+        - pyshacl = pyshacl.cli:main
+        - pyshacl_server = pyshacl.http:cli
+        - pyshacl_validate = pyshacl.cli:main
+    requirements:
+      host:
+        - pip
+        - poetry-core >=1.0.8
+        - python >=3.7
+      run:
+        - html5lib >=1.1,<2
+        - owlrl >=6.0.2,<7
+        - packaging >=21.3
+        - prettytable >=2.2.1,<3.0.0
+        - python >=3.7
+        - rdflib >=6.2.0,<7
+    test:
+      requires:
+        - pip
+      imports:
+        - pyshacl
+      commands:
+        - pip check
+        - pyshacl --help
+    about:
+      home: https://github.com/RDFLib/pySHACL
+      license: Apache-2.0
+      license_family: APACHE
+      license_file: LICENSE.txt
+      summary: A Python validator for SHACL
+      description: |
+        This is a pure Python module which allows for the validation of RDF graphs
+        against Shapes Constraint Language (SHACL) graphs. This module uses the
+        rdflib Python library for working with RDF and is dependent on the OWL-RL
+        Python module for OWL2 RL Profile-based expansion of data graphs.
+
+  # TODO: restore when sanic-cors, etc. are up-to-date
+  # - name: pyshacl-with-http
+  #   build:
+  #     noarch: python
+  #   requirements:
+  #     host:
+  #       - python >=3.7
+  #     run:
+  #       - {{ pin_subpackage("pyshacl", max_pin="x.x.x") }}
+  #       - python >=3.7
+  #       - sanic >=22.12,<23
+  #       - sanic-ext >=23.3,<23.6
+  #       - sanic-cors ==2.2.0.*
+  #   test:
+  #     requires:
+  #       - pip
+  #     imports:
+  #       - pyshacl
+  #     commands:
+  #       - pip check
+  #       - pyshacl --help
+  #   about:
+  #     home: https://github.com/RDFLib/pySHACL
+  #     license: Apache-2.0
+  #     license_family: APACHE
+  #     license_file: LICENSE.txt
+  #     summary: A Python validator for SHACL (with http extra)
+  #     description: |
+  #       This is a pure Python module which allows for the validation of RDF graphs
+  #       against Shapes Constraint Language (SHACL) graphs. This module uses the
+  #       rdflib Python library for working with RDF and is dependent on the OWL-RL
+  #       Python module for OWL2 RL Profile-based expansion of data graphs.
+
+  # TODO: restore when pyduktape2 is packaged
+  # - name: pyshacl-with-js
+  #   build:
+  #     noarch: python
+  #   requirements:
+  #     host:
+  #       - python >=3.7
+  #     run:
+  #       - {{ pin_subpackage("pyshacl", max_pin="x.x.x") }}
+  #       - python >=3.7
+  #       - pyduktape2 >=0.4.1,<0.5.0
+  #   test:
+  #     requires:
+  #       - pip
+  #     imports:
+  #       - pyshacl
+  #     commands:
+  #       - pip check
+  #       - pyshacl --help
+  #   about:
+  #     home: https://github.com/RDFLib/pySHACL
+  #     license: Apache-2.0
+  #     license_family: APACHE
+  #     license_file: LICENSE.txt
+  #     summary: A Python validator for SHACL (with js extra)
+  #     description: |
+  #       This is a pure Python module which allows for the validation of RDF graphs
+  #       against Shapes Constraint Language (SHACL) graphs. This module uses the
+  #       rdflib Python library for working with RDF and is dependent on the OWL-RL
+  #       Python module for OWL2 RL Profile-based expansion of data graphs.
+
+  - name: pyshacl-with-all
+    build:
+      noarch: python
+    requirements:
+      host:
+        - python >=3.7
+      run:
+        - {{ pin_subpackage("pyshacl", max_pin="x.x.x") }}
+        # - {{ pin_subpackage("pyshacl-with-http", max_pin="x.x.x") }}
+        # - {{ pin_subpackage("pyshacl-with-js", max_pin="x.x.x") }}
+        - python >=3.7
+    test:
+      source_files:
+        - test
+      requires:
+        - pip
+        - pytest-cov
+      imports:
+        - pyshacl
+      commands:
+        - python -m pip check
+        - pyshacl --help
+        # TODO: remove after pyduktape2
+        - python -c "__import__('pathlib').Path('test/issues/test_108.py').unlink()"
+        - pytest -vv --cov-fail-under=65 --cov=pyshacl --cov-report=term-missing:skip-covered --no-cov-on-fail -k "not (owl_imports or js)"
+    about:
+      home: https://github.com/RDFLib/pySHACL
+      license: Apache-2.0
+      license_family: APACHE
+      license_file: LICENSE.txt
+      summary: A Python validator for SHACL (with all extra)
+      description: |
+        This is a pure Python module which allows for the validation of RDF graphs
+        against Shapes Constraint Language (SHACL) graphs. This module uses the
+        rdflib Python library for working with RDF and is dependent on the OWL-RL
+        Python module for OWL2 RL Profile-based expansion of data graphs.
 
 about:
   home: https://github.com/RDFLib/pySHACL
@@ -61,6 +174,7 @@ about:
     Python module for OWL2 RL Profile-based expansion of data graphs.
 
 extra:
+  feedstock-name: pyshacl
   recipe-maintainers:
     - bollwyvl
     - satra

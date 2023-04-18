@@ -170,6 +170,3 @@ Feedstock Maintainers
 * [@bollwyvl](https://github.com/bollwyvl/)
 * [@satra](https://github.com/satra/)
 
-
-<!-- dummy commit to enable rerendering -->
-

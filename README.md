@@ -17,6 +17,20 @@ against Shapes Constraint Language (SHACL) graphs. This module uses the
 rdflib Python library for working with RDF and is dependent on the OWL-RL
 Python module for OWL2 RL Profile-based expansion of data graphs.
 
+About pyshacl-with-http
+-----------------------
+
+Home: https://github.com/RDFLib/pySHACL
+
+Package license: Apache-2.0
+
+Summary: A Python validator for SHACL (with http extra)
+
+This is a pure Python module which allows for the validation of RDF graphs
+against Shapes Constraint Language (SHACL) graphs. This module uses the
+rdflib Python library for working with RDF and is dependent on the OWL-RL
+Python module for OWL2 RL Profile-based expansion of data graphs.
+
 About pyshacl-with-all
 ----------------------
 
@@ -52,6 +66,7 @@ Current release info
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyshacl-green.svg)](https://anaconda.org/conda-forge/pyshacl) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyshacl.svg)](https://anaconda.org/conda-forge/pyshacl) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyshacl.svg)](https://anaconda.org/conda-forge/pyshacl) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyshacl.svg)](https://anaconda.org/conda-forge/pyshacl) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-pyshacl--with--all-green.svg)](https://anaconda.org/conda-forge/pyshacl-with-all) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyshacl-with-all.svg)](https://anaconda.org/conda-forge/pyshacl-with-all) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyshacl-with-all.svg)](https://anaconda.org/conda-forge/pyshacl-with-all) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyshacl-with-all.svg)](https://anaconda.org/conda-forge/pyshacl-with-all) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-pyshacl--with--http-green.svg)](https://anaconda.org/conda-forge/pyshacl-with-http) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/pyshacl-with-http.svg)](https://anaconda.org/conda-forge/pyshacl-with-http) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/pyshacl-with-http.svg)](https://anaconda.org/conda-forge/pyshacl-with-http) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/pyshacl-with-http.svg)](https://anaconda.org/conda-forge/pyshacl-with-http) |
 
 Installing pyshacl
 ==================
@@ -63,16 +78,16 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `pyshacl, pyshacl-with-all` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `pyshacl, pyshacl-with-all, pyshacl-with-http` can be installed with `conda`:
 
 ```
-conda install pyshacl pyshacl-with-all
+conda install pyshacl pyshacl-with-all pyshacl-with-http
 ```
 
 or with `mamba`:
 
 ```
-mamba install pyshacl pyshacl-with-all
+mamba install pyshacl pyshacl-with-all pyshacl-with-http
 ```
 
 It is possible to list all of the versions of `pyshacl` available on your platform with `conda`:

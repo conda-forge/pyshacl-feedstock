@@ -144,7 +144,7 @@ outputs:
       commands:
         - python -m pip check
         - pyshacl --help
-        - pytest -vv --cov-fail-under=65 --cov=pyshacl --cov-report=term-missing:skip-covered --no-cov-on-fail -k "not owl_imports"
+        - pytest -vv --cov-fail-under=77 --cov=pyshacl --cov-report=term-missing:skip-covered --no-cov-on-fail -k "not owl_imports"
     about:
       home: https://github.com/RDFLib/pySHACL
       license: Apache-2.0

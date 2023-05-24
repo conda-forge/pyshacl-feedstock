@@ -1,4 +1,4 @@
-{% set version = "0.22.2" %}
+{% set version = "0.23.0" %}
 
 package:
   name: pyshacl-split
@@ -6,11 +6,11 @@ package:
 
 source:
   url: https://pypi.io/packages/source/p/pyshacl/pyshacl-{{ version }}.tar.gz
-  sha256: a9cbba8048438410eca0ee437df2cc55612cf5ed14574dc9524713063d10d3e4
+  sha256: 43a80bbf403176f8f37a22fbbe8d95ba5395cf755e378af1db3126e709819d2c
 
 build:
   noarch: python
-  number: 1
+  number: 0
 
 requirements:
   host:

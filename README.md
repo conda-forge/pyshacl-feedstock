@@ -3,6 +3,7 @@ About pyshacl-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/pyshacl-feedstock/blob/main/LICENSE.txt)
 
+
 About pyshacl
 -------------
 
@@ -16,6 +17,7 @@ This is a pure Python module which allows for the validation of RDF graphs
 against Shapes Constraint Language (SHACL) graphs. This module uses the
 rdflib Python library for working with RDF and is dependent on the OWL-RL
 Python module for OWL2 RL Profile-based expansion of data graphs.
+
 
 About pyshacl-with-http
 -----------------------
@@ -31,6 +33,7 @@ against Shapes Constraint Language (SHACL) graphs. This module uses the
 rdflib Python library for working with RDF and is dependent on the OWL-RL
 Python module for OWL2 RL Profile-based expansion of data graphs.
 
+
 About pyshacl-with-js
 ---------------------
 
@@ -44,6 +47,7 @@ This is a pure Python module which allows for the validation of RDF graphs
 against Shapes Constraint Language (SHACL) graphs. This module uses the
 rdflib Python library for working with RDF and is dependent on the OWL-RL
 Python module for OWL2 RL Profile-based expansion of data graphs.
+
 
 About pyshacl-with-all
 ----------------------

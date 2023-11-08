@@ -1,4 +1,7 @@
 {% set version = "0.24.0" %}
+# upstream supports 3.7 (dropped by conda-forge), but introduces pins that can't
+# be solved without losing noarch: python
+{% set min_python = "python >=3.8.1" %}
 
 package:
   name: pyshacl-split
@@ -7,6 +10,9 @@ package:
 source:
   url: https://pypi.io/packages/source/p/pyshacl/pyshacl-{{ version }}.tar.gz
   sha256: 56416f8c1703d7425e175873a182ec227f0fed2d46805ad6bd1618e9e85088df
+  patches:
+    # see https://github.com/RDFLib/pySHACL/pull/214
+    - 0000-loosen-importlib-metadata.diff
 
 build:
   noarch: python
@@ -14,32 +20,43 @@ build:
 
 requirements:
   host:
-    - python >=3.7
+    - {{ min_python }}
   run:
-    - python >=3.7
+    - {{ min_python }}
 
 outputs:
   - name: pyshacl
     build:
       noarch: python
       script:
+        # poetry puts stuff all over
+        {% set remove_from_sp_dir = [
+          "CHANGELOG.md",
+          "CONTRIBUTING.md",
+          "CONTRIBUTORS.md",
+          "FEATURES.md",
+          "LICENSE.txt",
+          "README.md",
+        ] %}
         - {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation
+        - |-
+          {{ PYTHON }} -c "import os, pathlib; sp = pathlib.Path(os.environ['SP_DIR']); [(sp / f).unlink() for f in {{ remove_from_sp_dir }}]"
       entry_points:
         - pyshacl = pyshacl.cli:main
         - pyshacl_server = pyshacl.http:cli
         - pyshacl_validate = pyshacl.cli:main
     requirements:
       host:
+        - {{ min_python }}
         - pip
-        - poetry-core >=1.6.0,<2
-        - python >=3.7
+        - poetry-core >=1.8.1,<2
       run:
+        - {{ min_python }}
         - html5lib >=1.1,<2
         - owlrl >=6.0.2,<7
         - packaging >=21.3
-        - prettytable >=2.2.1,<3.0.0
-        - python >=3.7
-        - rdflib >=6.3.2,<7
+        - prettytable >=3.7.0
+        - rdflib >=6.3.2,<8
     test:
       requires:
         - pip
@@ -65,10 +82,10 @@ outputs:
       noarch: python
     requirements:
       host:
-        - python >=3.7
+        - {{ min_python }}
       run:
         - {{ pin_subpackage("pyshacl", max_pin="x.x.x") }}
-        - python >=3.7
+        - {{ min_python }}
         - sanic >=22.12,<23
         - sanic-ext >=23.3,<23.6
         - sanic-cors ==2.2.0.*
@@ -97,10 +114,10 @@ outputs:
       noarch: python
     requirements:
       host:
-        - python >=3.7
+        - {{ min_python }}
       run:
+        - {{ min_python }}
         - {{ pin_subpackage("pyshacl", max_pin="x.x.x") }}
-        - python >=3.7
         - pyduktape2 >=0.4.3,<0.5.0
     test:
       requires:
@@ -127,12 +144,12 @@ outputs:
       noarch: python
     requirements:
       host:
-        - python >=3.7
+        - {{ min_python }}
       run:
-        - {{ pin_subpackage("pyshacl", max_pin="x.x.x") }}
+        - {{ min_python }}
         - {{ pin_subpackage("pyshacl-with-http", max_pin="x.x.x") }}
         - {{ pin_subpackage("pyshacl-with-js", max_pin="x.x.x") }}
-        - python >=3.7
+        - {{ pin_subpackage("pyshacl", max_pin="x.x.x") }}
     test:
       source_files:
         - test
@@ -142,9 +159,9 @@ outputs:
       imports:
         - pyshacl
       commands:
-        - python -m pip check
+        - pip check
         - pyshacl --help
-        - pytest -vv --cov-fail-under=77 --cov=pyshacl --cov-report=term-missing:skip-covered --no-cov-on-fail -k "not owl_imports"
+        - pytest -vv --color=yes --tb=long --cov-fail-under=72 --cov-branch --cov=pyshacl --cov-report=term-missing:skip-covered --no-cov-on-fail -k "not owl_imports"
     about:
       home: https://github.com/RDFLib/pySHACL
       license: Apache-2.0

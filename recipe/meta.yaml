@@ -11,9 +11,6 @@ package:
 source:
   url: https://pypi.io/packages/source/p/pyshacl/pyshacl-{{ version }}.tar.gz
   sha256: 91e87ed04ccb29aa47abfcf8a3e172d35a8831fce23a011cfbf35534ce4c940b
-  patches:
-    # see https://github.com/RDFLib/pySHACL/pull/214
-    - 0000-loosen-importlib-metadata.diff
 
 build:
   noarch: python
@@ -54,6 +51,7 @@ outputs:
       run:
         - {{ min_python }}
         - html5lib >=1.1,<2
+        - importlib-metadata >6
         - owlrl >=6.0.2,<7
         - packaging >=21.3
         - prettytable >=3.7.0

@@ -1,6 +1,7 @@
 {% set min_python = "python >=3.8.1" %}
 {% set min_python = "python >=3.8.1" %}
-{% set version = "0.26.0" %}
+{% set min_python = "python >=3.8.1" %}
+{% set version = "0.27.0" %}
 # upstream supports 3.7 (dropped by conda-forge), but introduces pins that can't
 # be solved without losing noarch: python
 {% set min_python = "python >=3.8.1" %}
@@ -11,7 +12,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/p/pyshacl/pyshacl-{{ version }}.tar.gz
-  sha256: 48d44f317cd9aad8e3fdb5df8aa5706fa92dc6b2746419698035e84a320fb89d
+  sha256: 4cdbaea15ec0b37a39e2a846898e79bfd32fe5d1f1b87c106e3e56ec473e3d63
 
 build:
   noarch: python

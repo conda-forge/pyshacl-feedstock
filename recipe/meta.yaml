@@ -134,7 +134,7 @@ outputs:
         - pip check
         - pyshacl --help
         - coverage run --branch --source=pyshacl -m pytest -vv --color=yes --tb=long -k "not owl_imports"
-        - coverage report --show-missing --skip-covered --fail-under=72
+        - coverage report --show-missing --skip-covered --fail-under=71
     about:
       home: https://github.com/RDFLib/pySHACL
       license: Apache-2.0

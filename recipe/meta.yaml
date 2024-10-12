@@ -1,13 +1,10 @@
-{% set min_python = "python >=3.8.1" %}
-{% set min_python = "python >=3.8.1" %}
-{% set min_python = "python >=3.8.1" %}
 {% set version = "0.27.0" %}
-# upstream supports 3.7 (dropped by conda-forge), but introduces pins that can't
-# be solved without losing noarch: python
-{% set min_python = "python >=3.8.1" %}
+
+# handle undefined PYTHON in `noarch: generic` outputs
+{% if PYTHON is not defined %}{% set PYTHON = "$PYTHON" %}{% endif %}
 
 package:
-  name: pyshacl-split
+  name: pyshacl
   version: {{ version }}
 
 source:
@@ -15,78 +12,58 @@ source:
   sha256: 4cdbaea15ec0b37a39e2a846898e79bfd32fe5d1f1b87c106e3e56ec473e3d63
 
 build:
-  noarch: python
   number: 0
+  noarch: python
+  script:
+    # poetry puts stuff all over
+    {% set remove_from_sp_dir = [
+      "CHANGELOG.md",
+      "CONTRIBUTING.md",
+      "CONTRIBUTORS.md",
+      "FEATURES.md",
+      "LICENSE.txt",
+      "README.md",
+    ] %}
+    - {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation
+    - |-
+      {{ PYTHON }} -c "import os, pathlib; sp = pathlib.Path(os.environ['SP_DIR']); [(sp / f).unlink() for f in {{ remove_from_sp_dir }}]"
+  entry_points:
+    - pyshacl = pyshacl.cli:main
+    - pyshacl_rules = pyshacl.cli_rules:main
+    - pyshacl_server = pyshacl.http:cli
+    - pyshacl_validate = pyshacl.cli:main
 
 requirements:
   host:
-    - {{ min_python }}
+    - python >=3.8.1
+    - pip
+    - poetry-core >=1.8.1,<2
   run:
-    - {{ min_python }}
+    - python >=3.8.1
+    - importlib-metadata >6
+    - owlrl >=6.0.2,<7
+    - packaging >=21.3
+    - prettytable >=3.7.0
+    - rdflib-with-html >=6.3.2,<8
+
+test:
+  requires:
+    - pip
+  imports:
+    - pyshacl
+  commands:
+    - pip check
+    - pyshacl --help
 
 outputs:
   - name: pyshacl
-    build:
-      noarch: python
-      script:
-        # poetry puts stuff all over
-        {% set remove_from_sp_dir = [
-          "CHANGELOG.md",
-          "CONTRIBUTING.md",
-          "CONTRIBUTORS.md",
-          "FEATURES.md",
-          "LICENSE.txt",
-          "README.md",
-        ] %}
-        - {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation
-        - |-
-          {{ PYTHON }} -c "import os, pathlib; sp = pathlib.Path(os.environ['SP_DIR']); [(sp / f).unlink() for f in {{ remove_from_sp_dir }}]"
-      entry_points:
-        - pyshacl = pyshacl.cli:main
-        - pyshacl_server = pyshacl.http:cli
-        - pyshacl_validate = pyshacl.cli:main
-    requirements:
-      host:
-        - {{ min_python }}
-        - pip
-        - poetry-core >=1.8.1,<2
-      run:
-        - {{ min_python }}
-        - html5lib >=1.1,<2
-        - importlib-metadata >6
-        - owlrl >=6.0.2,<7
-        - packaging >=21.3
-        - prettytable >=3.7.0
-        - rdflib >=6.3.2,<8
-    test:
-      requires:
-        - pip
-      imports:
-        - pyshacl
-      commands:
-        - pip check
-        - pyshacl --help
-    about:
-      home: https://github.com/RDFLib/pySHACL
-      license: Apache-2.0
-      license_family: APACHE
-      license_file: LICENSE.txt
-      summary: A Python validator for SHACL
-      description: |
-        This is a pure Python module which allows for the validation of RDF graphs
-        against Shapes Constraint Language (SHACL) graphs. This module uses the
-        rdflib Python library for working with RDF and is dependent on the OWL-RL
-        Python module for OWL2 RL Profile-based expansion of data graphs.
 
   - name: pyshacl-with-http
     build:
-      noarch: python
+      noarch: generic
     requirements:
-      host:
-        - {{ min_python }}
       run:
         - {{ pin_subpackage("pyshacl", max_pin="x.x.x") }}
-        - {{ min_python }}
         - sanic >=22.12,<23
         - sanic-ext >=23.3,<23.6
         - sanic-cors ==2.2.0.*
@@ -112,12 +89,9 @@ outputs:
 
   - name: pyshacl-with-js
     build:
-      noarch: python
+      noarch: generic
     requirements:
-      host:
-        - {{ min_python }}
       run:
-        - {{ min_python }}
         - {{ pin_subpackage("pyshacl", max_pin="x.x.x") }}
         - pyduktape2 >=0.4.3,<0.5.0
     test:
@@ -142,12 +116,9 @@ outputs:
 
   - name: pyshacl-with-all
     build:
-      noarch: python
+      noarch: generic
     requirements:
-      host:
-        - {{ min_python }}
       run:
-        - {{ min_python }}
         - {{ pin_subpackage("pyshacl-with-http", max_pin="x.x.x") }}
         - {{ pin_subpackage("pyshacl-with-js", max_pin="x.x.x") }}
         - {{ pin_subpackage("pyshacl", max_pin="x.x.x") }}
@@ -162,7 +133,8 @@ outputs:
       commands:
         - pip check
         - pyshacl --help
-        - pytest -vv --color=yes --tb=long --cov-fail-under=72 --cov-branch --cov=pyshacl --cov-report=term-missing:skip-covered --no-cov-on-fail -k "not owl_imports"
+        - coverage run --branch --source=pyshacl -m pytest -vv --color=yes --tb=long -k "not owl_imports"
+        - coverage report --show-missing --skip-covered --fail-under=72
     about:
       home: https://github.com/RDFLib/pySHACL
       license: Apache-2.0

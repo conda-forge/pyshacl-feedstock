@@ -1,4 +1,4 @@
-{% set version = "0.28.0" %}
+{% set version = "0.28.1" %}
 
 # handle undefined PYTHON in `noarch: generic` outputs
 {% if PYTHON is not defined %}{% set PYTHON = "$PYTHON" %}{% endif %}
@@ -9,7 +9,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/p/pyshacl/pyshacl-{{ version }}.tar.gz
-  sha256: d41d7a052f7a5311ae89f8357d7a7ba37a88362204eda93141556c588c6a3ff6
+  sha256: c98e1927541f0cbeb0ba27f3fbe585d638281d6e63f314462dcc32282b3c8353
 
 build:
   number: 0

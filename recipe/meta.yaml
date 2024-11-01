@@ -3,6 +3,16 @@
 # handle undefined PYTHON in `noarch: generic` outputs
 {% if PYTHON is not defined %}{% set PYTHON = "$PYTHON" %}{% endif %}
 
+# poetry puts stuff all over
+{% set remove_from_sp_dir = [
+  "CHANGELOG.md",
+  "CONTRIBUTING.md",
+  "CONTRIBUTORS.md",
+  "FEATURES.md",
+  "LICENSE.txt",
+  "README.md",
+] %}
+
 package:
   name: pyshacl
   version: {{ version }}
@@ -15,15 +25,6 @@ build:
   number: 0
   noarch: python
   script:
-    # poetry puts stuff all over
-    {% set remove_from_sp_dir = [
-      "CHANGELOG.md",
-      "CONTRIBUTING.md",
-      "CONTRIBUTORS.md",
-      "FEATURES.md",
-      "LICENSE.txt",
-      "README.md",
-    ] %}
     - {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation
     - |-
       {{ PYTHON }} -c "import os, pathlib; sp = pathlib.Path(os.environ['SP_DIR']); [(sp / f).unlink() for f in {{ remove_from_sp_dir }}]"

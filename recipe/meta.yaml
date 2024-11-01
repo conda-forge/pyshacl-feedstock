@@ -1,4 +1,4 @@
-{% set version = "0.28.1" %}
+{% set version = "0.29.0" %}
 
 # handle undefined PYTHON in `noarch: generic` outputs
 {% if PYTHON is not defined %}{% set PYTHON = "$PYTHON" %}{% endif %}
@@ -8,8 +8,8 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/p/pyshacl/pyshacl-{{ version }}.tar.gz
-  sha256: c98e1927541f0cbeb0ba27f3fbe585d638281d6e63f314462dcc32282b3c8353
+  url: https://pypi.org/packages/source/p/pyshacl/pyshacl-{{ version }}.tar.gz
+  sha256: a9ef654e72890c87d37b0e0ddae622fe46ac487dcda902d3c75724a913b41f0b
 
 build:
   number: 0
@@ -35,16 +35,16 @@ build:
 
 requirements:
   host:
-    - python >=3.8.1
     - pip
-    - poetry-core >=1.8.1,<2
+    - poetry-core >=1.9.0,<2
+    - python >=3.9
   run:
-    - python >=3.8.1
     - importlib-metadata >6
-    - owlrl >=6.0.2,<7
+    - owlrl >=7.1.1,<8
     - packaging >=21.3
     - prettytable >=3.7.0
-    - rdflib-with-html >=6.3.2,<8
+    - python >=3.9
+    - rdflib-with-html >=7.1.1,<8
 
 test:
   requires:
@@ -65,8 +65,8 @@ outputs:
       run:
         - {{ pin_subpackage("pyshacl", max_pin="x.x.x") }}
         - sanic >=22.12,<23
-        - sanic-ext >=23.3,<23.6
         - sanic-cors ==2.2.0.*
+        - sanic-ext >=23.3,<23.6
     test:
       requires:
         - pip
@@ -93,7 +93,7 @@ outputs:
     requirements:
       run:
         - {{ pin_subpackage("pyshacl", max_pin="x.x.x") }}
-        - pyduktape2 >=0.4.3,<0.5.0
+        - pyduktape2 >=0.4.6,<0.5.0
     test:
       requires:
         - pip

@@ -11,7 +11,7 @@ source:
   sha256: 7944f9860677bd82c0b5877d50a971ad2ea3e646076174f9c1b6d1b91e3b8496
 
 build:
-  number: 0
+  number: 1
   noarch: python
   script:
     - {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation --disable-pip-version-check
@@ -26,18 +26,19 @@ requirements:
   host:
     - pip
     - poetry-core >=1.9.0,<2
-    - python >=3.9
+    - python {{ python_min }}
   run:
     - importlib-metadata >6
     - owlrl >=7.1.1,<8
     - packaging >=21.3
     - prettytable >=3.7.0
-    - python >=3.9
+    - python >={{ python_min }}
     - rdflib-with-html >=7.1.1,<8
 
 test:
   requires:
     - pip
+    - python {{ python_min }}
   imports:
     - pyshacl
   commands:

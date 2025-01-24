@@ -1,4 +1,4 @@
-{% set version = "0.29.1" %}
+{% set version = "0.30.0" %}
 
 {% set PYTHON = PYTHON | default("$PYTHON") %}
 
@@ -8,10 +8,10 @@ package:
 
 source:
   url: https://pypi.org/packages/source/p/pyshacl/pyshacl-{{ version }}.tar.gz
-  sha256: 7944f9860677bd82c0b5877d50a971ad2ea3e646076174f9c1b6d1b91e3b8496
+  sha256: 449188b07ca46681097d732e9308d42c211ee903784742f8c3e8a0e36e98f728
 
 build:
-  number: 1
+  number: 0
   noarch: python
   script:
     - {{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation --disable-pip-version-check

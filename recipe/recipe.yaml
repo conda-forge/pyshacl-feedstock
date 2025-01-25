@@ -37,7 +37,7 @@ outputs:
         - python ${{ python_min }}.*
       run:
         - importlib-metadata >6
-        - owlrl >=7.1.1,<8
+        - owlrl >=7.1.2,<8
         - packaging >=21.3
         - prettytable >=3.7.0
         - python >=${{ python_min }}

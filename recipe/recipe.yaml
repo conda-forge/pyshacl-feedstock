@@ -9,13 +9,13 @@ recipe:
   name: pyshacl
   version: ${{ version }}
 
-build:
-  number: 0
-  noarch: python
-
 source:
   url: https://pypi.org/packages/source/p/pyshacl/pyshacl-${{ version }}.tar.gz
   sha256: 449188b07ca46681097d732e9308d42c211ee903784742f8c3e8a0e36e98f728
+
+build:
+  number: 0
+  noarch: python
 
 outputs:
   - package:

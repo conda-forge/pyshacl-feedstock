@@ -41,7 +41,7 @@ outputs:
         - packaging >=21.3
         - prettytable >=3.7.0
         - python >=${{ python_min }}
-        - rdflib-with-html >=7.1.1,<8
+        - rdflib-with-html >=7.1.1,<8,!=7.1.2
     tests:
       - python:
           pip_check: true

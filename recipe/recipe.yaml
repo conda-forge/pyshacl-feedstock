@@ -2,7 +2,7 @@
 schema_version: 1
 
 context:
-  version: 0.30.0
+  version: "0.30.1"
   PYTHON: ${{ PYTHON | default("$PYTHON") }}
 
 recipe:
@@ -11,7 +11,7 @@ recipe:
 
 source:
   url: https://pypi.org/packages/source/p/pyshacl/pyshacl-${{ version }}.tar.gz
-  sha256: 449188b07ca46681097d732e9308d42c211ee903784742f8c3e8a0e36e98f728
+  sha256: df712ac961b1ee7bcf0b27fa71ecab7785a135b2af69783ce30cb05fe41bcaf5
 
 build:
   number: 0

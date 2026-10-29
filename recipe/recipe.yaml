@@ -2,7 +2,9 @@
 schema_version: 1
 
 context:
-  version: "0.40.1"
+  version: "0.40.2"
+  python_check_max: "3.15"
+  python_check_max_http: "3.11"
   summary: A Python validator for SHACL
   cov_run: coverage run --branch --source=pyshacl --append
 
@@ -12,7 +14,7 @@ recipe:
 
 source:
   url: https://pypi.org/packages/source/p/pyshacl/pyshacl-${{ version }}.tar.gz
-  sha256: 011e3cf1a68b31747cb762ba3d755ae1bdcc464c8fad0dc212a9adc550719552
+  sha256: 3b089fcfe82dccca2a9d560d88665ca0345f828b9cf21de554e611a55c2c7277
 
 build:
   number: 0
@@ -23,8 +25,7 @@ outputs:
       name: pyshacl
     build:
       script:
-        - ${{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation --disable-pip-version-check
-        - cd ${{ RECIPE_DIR }} && ${{ PYTHON }} clean_site_packages.py
+        - ${{ PYTHON }} -m pip install . --no-deps -vv --no-build-isolation --disable-pip-version-check --check-build-dependencies
       python:
         entry_points:
           - pyshacl = pyshacl.cli:main
@@ -44,11 +45,17 @@ outputs:
         - python >=${{ python_min }}
         - rdflib-with-html >=7.3.0,<8.0
     tests:
+      - package_contents:
+          strict: true
+          site_packages:
+            - pyshacl/**
+            - pyshacl-${{ version }}.dist-info/**
       - python:
+          imports: pyshacl
           pip_check: true
-          python_version: ${{ python_min }}.*
-          imports:
-            - pyshacl
+          python_version:
+            - ${{ python_min }}.*
+            - ${{ python_check_max }}.*
       - requirements:
           run:
             - python ${{ python_min }}.*
@@ -68,7 +75,9 @@ outputs:
     tests:
       - python:
           pip_check: true
-          python_version: ${{ python_min }}.*
+          python_version:
+            - ${{ python_min }}.*
+            - ${{ python_check_max_http }}.*
           imports:
             - pyshacl
             - pyshacl.sh_http
@@ -90,11 +99,13 @@ outputs:
         - pyduktape2 >=0.5.0,<1
     tests:
       - python:
-          pip_check: true
-          python_version: ${{ python_min }}.*
           imports:
             - pyshacl
             - pyshacl.extras.js.context
+          pip_check: true
+          python_version:
+            - ${{ python_min }}.*
+            - ${{ python_check_max }}.*
       - requirements:
           run:
             - python ${{ python_min }}.*
@@ -113,10 +124,11 @@ outputs:
         - pyoxigraph >=0.5.6
     tests:
       - python:
+          imports: pyshacl
           pip_check: true
-          python_version: ${{ python_min }}.*
-          imports:
-            - pyshacl
+          python_version:
+            - ${{ python_min }}.*
+            - ${{ python_check_max }}.*
       - requirements:
           run:
             - python ${{ python_min }}.*
@@ -132,16 +144,18 @@ outputs:
       noarch: generic
     requirements:
       run:
-        - ${{ pin_subpackage("pyshacl-with-http", exact=True) }}
+        # very old pins, only solves on python 3.11, not tested
+        # - ${{ pin_subpackage("pyshacl-with-http", exact=True) }}
         - ${{ pin_subpackage("pyshacl-with-js", exact=True) }}
         - ${{ pin_subpackage("pyshacl-with-oxigraph", exact=True) }}
         - ${{ pin_subpackage("pyshacl", exact=True) }}
     tests:
       - python:
+          imports: pyshacl
           pip_check: true
-          python_version: ${{ python_min }}.*
-          imports:
-            - pyshacl
+          python_version:
+            - ${{ python_min }}.*
+            - ${{ python_check_max }}.*
       - files:
           source:
             - test/
